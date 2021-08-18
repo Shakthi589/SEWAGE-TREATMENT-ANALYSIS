@@ -1,0 +1,66 @@
+import matplotlib.pyplot as plt
+import pandas as pd
+import pylab as pl
+import numpy as np
+
+
+
+df = pd.read_csv("train.csv")
+df1=pd.read_csv("test.csv")
+
+# take a look at the dataset
+print(df.head())
+
+
+cdf = df[['x','y']]
+cdf1=df1[['X','Y']]
+cdf.head(2)
+plt.scatter(cdf.x, cdf.y,  color='blue')
+plt.xlabel("Total flow per day")
+plt.ylabel("Bio gas produced")
+
+
+
+from sklearn import linear_model
+regr = linear_model.LinearRegression()
+train_x = df[['x']]
+train_y = df[['y']]
+regr.fit (train_x, train_y)
+# The coefficients
+print ('Coefficients:\n ', regr.coef_)
+print ('Intercept: \n',regr.intercept_)
+print("\n\n")
+
+
+plt.scatter(train_x, train_y,  color='blue')
+plt.plot(train_x, regr.coef_[0][0]*train_x + regr.intercept_[0], '-r')
+plt.xlabel("Total flow")
+plt.ylabel("Biogas")
+plt.show()
+
+test_x =df1[['X']]
+test_y = df1[['Y']]
+test_y_hat = regr.predict(test_x)
+print("Predictions :")
+print(test_y_hat)
+df2=pd.read_csv("regression.csv")
+
+import seaborn as sns
+from sklearn.ensemble import RandomForestRegressor
+
+
+corr = df2.corr()
+
+grp, ax = plt.subplots(figsize=(8, 8))
+
+colormap = sns.diverging_palette(220, 10, as_cmap=True)
+
+dropSelf = np.zeros_like(corr)
+
+dropSelf[np.triu_indices_from(dropSelf)] = True
+
+colormap = sns.diverging_palette(220, 10, as_cmap=True)
+
+sns.heatmap(corr, cmap=colormap, linewidths=.5, annot=True, fmt=".2f", mask=dropSelf)
+
+plt.show()
