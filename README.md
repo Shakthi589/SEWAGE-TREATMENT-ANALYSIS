@@ -1,1 +1,1 @@
-# SEWAGE-TREATMENT-ANALYSIS
+Download the entire sewage treatment analysis folder and import the complete folder as a project into pycharm complier, the training  file the test files  which is very important in performing regression are already present in the folder. So just download and import it into the pycharm and run the code to see the desired output.
